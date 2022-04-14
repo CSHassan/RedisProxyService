@@ -1,0 +1,5 @@
+envyaml==1.10.211231
+fastapi==0.75.1
+hypercorn==0.13.2
+pydantic==1.9.0
+redis==4.2.2
