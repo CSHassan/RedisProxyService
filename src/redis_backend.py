@@ -7,7 +7,7 @@ from local_cache import LRUCache
 env = EnvYAML('./env.yaml')
 
 #intialize the cache
-inmem_cache = LRUCache(env['CACHE.SIZE'])
+inmem_cache = LRUCache()
 
 #make a redis pool to reuse the connection instead of a new connection
 backing_redis =redis.ConnectionPool(host=env['REDIS.REDIS_HOST'],port=env['REDIS.REDIS_PORT'])
@@ -16,7 +16,7 @@ backing_redis =redis.ConnectionPool(host=env['REDIS.REDIS_HOST'],port=env['REDIS
 async def get_redis_value(redis_id: str):
     redis_client = redis.Redis(connection_pool=backing_redis, decode_responses=True)
     cache_value = check_local_cache(redis_id)
-    if(cache_value != 0):
+    if(cache_value != -1):
         return cache_value
     else:
         redis_value = await redis_client.get(redis_id)
@@ -31,11 +31,11 @@ def set_local_cache(redis_id: str,redis_value: str):
 def check_local_cache(redis_id: str):
     value = inmem_cache.get(redis_id)
     if( value != -1):
-         print("Found in local cache: " + value)
+         print("Found in local cache..")
          return value
     else:
         print("Not found in local cache,feching from redis...")
-        return 0
+        return -1
      
 
 
