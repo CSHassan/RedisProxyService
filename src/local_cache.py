@@ -1,5 +1,4 @@
 from collections import OrderedDict
-from email.policy import default
 import time
 from threading import Lock
 from envyaml import EnvYAML
