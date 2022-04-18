@@ -8,6 +8,7 @@ env = EnvYAML('./env.yaml')
 # we have two dict, cache and global expiry
 # cache takes in the key/value pair from redis
 #global expiry takes the key and current time
+#lock for concurrency
 class LRUCache:
  
     # initialising
@@ -43,6 +44,7 @@ class LRUCache:
     # also refresh the expiry time
     def put(self, key: int, value: int):
         with self.lock:
+            print(len(self.cache))
             if len(self.cache) > self.capacity:
                 self.cache.popitem(last = False)         
             self.cache[key] = value            
