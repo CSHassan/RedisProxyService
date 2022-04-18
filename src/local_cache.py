@@ -62,7 +62,6 @@ class LRUCache:
         exp = self.global_expiry.get(key, -1)
         current_time = time.time()             
         active_time = current_time - exp
-        print(active_time)
         if (exp is not None and active_time >=env['CACHE.EXPIRY']):            
             return True
         else:
