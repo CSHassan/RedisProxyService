@@ -4,8 +4,8 @@ FROM python:3.10.4-slim-buster
 COPY ./src /app/src
 
 # 
-COPY ./requirements.txt /
-COPY ./env.yaml  /
+COPY ./requirements.txt /app
+COPY ./env.yaml  /app/src
 
 # 
 WORKDIR /app
