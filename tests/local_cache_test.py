@@ -1,11 +1,9 @@
+import os
 import time
 from unittest import mock ,IsolatedAsyncioTestCase
 from src import local_cache
 import sys
 import asyncio
-from envyaml import EnvYAML
-
-env = EnvYAML('./env.yaml')
 
 
 if sys.version_info[0] == 3 and sys.version_info[1] >= 8 and sys.platform.startswith('win'):
@@ -49,14 +47,14 @@ class TestBackEnd(IsolatedAsyncioTestCase):
     def test_has_expired_in_cache_local_cache(self):       
         expected_result = True         
         inmem_cache.put('test5','hello')   
-        inmem_cache.global_expiry['test5'] = time.time()-env['CACHE.EXPIRY']
+        inmem_cache.global_expiry['test5'] = time.time()- (int(os.getenv('CACHE_EXPIRY')))
         acutal_result =  inmem_cache._has_expired('test5')
         self.assertEqual(acutal_result, expected_result) 
 
     def test_not_expired_in_cache_local_cache(self):       
         expected_result = False         
         inmem_cache.put('test5','hello')   
-        time_till_expiry = time.time()+ env['CACHE.EXPIRY']
+        time_till_expiry = time.time()+ (int(os.getenv('CACHE_EXPIRY')))
         inmem_cache.global_expiry['test5'] = time_till_expiry + 2
         acutal_result =  inmem_cache._has_expired('test5')
         self.assertEqual(acutal_result, expected_result) 

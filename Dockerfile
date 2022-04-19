@@ -5,13 +5,12 @@ COPY ./src /app/src
 
 # 
 COPY ./requirements.txt /app
-COPY ./env.yaml  /app/src
 
 # 
 WORKDIR /app
 
 # 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install -r requirements.txt
 
 
 

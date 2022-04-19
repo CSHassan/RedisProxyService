@@ -1,9 +1,12 @@
 from collections import OrderedDict
+import os
 import time
 from threading import Lock
-from envyaml import EnvYAML
 
-env = EnvYAML('./env.yaml')
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # we have two dict, cache and global expiry
 # cache takes in the key/value pair from redis
@@ -14,7 +17,7 @@ class LRUCache:
     # initialising
     def __init__(self):
         self.cache = OrderedDict()
-        self.capacity = env['CACHE.SIZE']
+        self.capacity = (int(os.getenv('CACHE_SIZE')))
         self.global_expiry = {}
         self.lock = Lock()
  
@@ -64,7 +67,7 @@ class LRUCache:
         exp = self.global_expiry.get(key, -1)
         current_time = time.time()             
         active_time = current_time - exp
-        if (exp is not None and active_time >=env['CACHE.EXPIRY']):            
+        if (exp is not None and active_time >= ( float(os.getenv('CACHE_EXPIRY')))):            
             return True
         else:
             return False 

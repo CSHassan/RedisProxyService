@@ -1,11 +1,10 @@
 import logging
+import os
+from dotenv import load_dotenv
 import redis.asyncio as redis
-from envyaml import EnvYAML
 from local_cache import LRUCache
 
-# read file env.yaml and parse config
-env = EnvYAML('./env.yaml')
-
+load_dotenv()
 
 #intialize the cache
 inmem_cache = LRUCache()
@@ -13,7 +12,7 @@ inmem_cache = LRUCache()
 #make a redis pool to reuse the connection instead of a new connection
 async def _get_redis_client():
     try:
-        backing_redis =redis.ConnectionPool(host=env['REDIS.REDIS_HOST'],port=env['REDIS.REDIS_PORT'])
+        backing_redis =redis.ConnectionPool(host=os.getenv('REDIS_HOST'),port=(int(os.getenv('REDIS_PORT'))))
         redis_client = await redis.Redis(connection_pool=backing_redis, decode_responses=True)             
         if (await redis_client.ping()):            
             logging.info("Successfully connected to redis")
@@ -44,8 +43,7 @@ def _set_local_cache(redis_id: str,redis_value: str):
 
 
 def _check_local_cache(redis_id: str):
-    value = inmem_cache.get(redis_id)
-    print(value)
+    value = inmem_cache.get(redis_id)    
     if( value != -1):
          logging.info(" Found in local cache..")
          return value
