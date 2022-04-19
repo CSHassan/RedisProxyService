@@ -1,6 +1,6 @@
 run:
 	python src/main.py
 build: requirements.txt
-	pip install -r requirements.txt
+	pip3 install -r requirements.txt
 test:
-	pytest
+	python3 -m unittest discover -s ./tests/ -p '*_test.py'

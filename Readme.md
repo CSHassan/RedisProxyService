@@ -48,3 +48,20 @@ since I used windows machine with wsl2, some of my configurations might be a bit
 under the build command as wsl2  networking localhost is different than my machine localhost.
 
 I am using Python 3.10.2 , so if you are using an earlier version it might not work properly due to async
+
+## Docker Commands
+
+To build the docker image i used this
+
+```cmd
+docker build -t redis_cache:1.0 . --build-arg PROXY_PORT="8000" --build-arg PROXY_HOST="0.0.0.0"
+
+docker run  -p 5000:8000 --env-file ./.env redis_cache:1.0
+```
+
+For docker compose, i used this
+
+```cmd
+docker-compose up
+
+```

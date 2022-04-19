@@ -16,7 +16,7 @@ services:
     container_name: "redis_proxy_cache"
     expose:
       - 8000
-    command: uvicorn src.main:app
+    command: uvicorn src.main:app --host $PROXY_HOST --port $PROXY_PORT
     volumes:
       - .:/src
     ports:
