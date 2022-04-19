@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 import uvicorn
 import platform
-from redis_backend import get_redis_value
+from src.redis_backend import get_redis_value
 
 load_dotenv()
 
