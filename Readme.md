@@ -34,7 +34,8 @@ make run
 
 ```diff
 -Please make sure before the test you have run the make build command and download requirements , also you need to have a 
-- redis server up and running or the backend / end-to-end test will fail
+-Redis server up and running or the backend / end-to-end test will fail
+-Also need python 3.8 or above for async unit test
 ``` 
 
 
