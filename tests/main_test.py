@@ -3,7 +3,7 @@ from fastapi.testclient import TestClient
 from unittest import mock ,TestCase
 from unittest import mock ,IsolatedAsyncioTestCase
 from fastapi.responses import JSONResponse
-from src import main
+from src import main, redis_backend
 
 
 client = TestClient(main.app)
@@ -54,3 +54,16 @@ class TestCalculator(IsolatedAsyncioTestCase):
       result = client.get("/redis/ ") 
       expected_result =   ['invalid format']       
       self.assertEqual(result.json(),expected_result)
+   
+   async def test_end_to_end_valid(self):      
+      redis = await redis_backend._get_redis_client()  
+      await redis.set('testab','testcd')   
+      expected_result =  {"value" : "testcd"}
+      result = client.get("/redis/testab")           
+      self.assertEqual(result.json(),expected_result)
+      
+   async def test_end_to_end_invalid(self): 
+      expected_result =  {'No value found in redis or local cache' : ''}
+      result = client.get("/redis/testoo")           
+      self.assertEqual(result.json(),expected_result)
+      
