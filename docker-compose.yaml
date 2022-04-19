@@ -9,26 +9,24 @@ services:
     volumes: 
       - cache:/data
   api:
-    container_name: redis-cache-proxy
+    depends_on:      
+      - cache    
     build: .
-    command: uvicorn src.main:app --host 0.0.0.0
-    image: redis-cache-proxy
-    depends_on:
-      - cache
-    ports:
-      - 8000:8000
-    environment:
-      ENVIRONMENT: dev     
-      REDIS.REDIS_HOST: cache
-      REDIS.REDIS_PORT: 6379
-      PROXY.HOST: 127.0.0.1
-      PROXY.PORT: 8000
-      CACHE.SIZE: 3
-      CACHE.EXPIRY: 20 
-    links:
-      - cache
+    container_name: "redis_proxy_cache"
     volumes:
-      - ./:/src
+      - .:/src
+    ports:
+      - "8000:8000"
+    environment:
+      - CACHE_SIZE=3
+      - CACHE_EXPIRY=20
+      - REDIS_HOST="127.0.0.1"
+      - REDIS_PORT=6379
+      - REDIS_POLLSIZE=1
+      - PROXY_HOST="127.0.0.1"
+      - PROXY_PORT=8000
+    links:      
+      - cache
 volumes:
   cache:
     driver: local
