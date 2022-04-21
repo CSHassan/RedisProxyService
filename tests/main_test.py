@@ -99,7 +99,7 @@ class TestCalculator(IsolatedAsyncioTestCase):
          client.get("/redis/test02")
          self.assertEqual(len(log.output), 3)   
          self.assertEqual(log.output[0], 'INFO:root: Not found in local cache,feching from redis...')
-
+   
    async def test_end_to_end_LRU(self):      
       redis = await get_redis_client()  
       await redis.set('testing01','testa')
