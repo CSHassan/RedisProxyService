@@ -2,7 +2,7 @@ import logging
 import os
 from dotenv import load_dotenv
 import redis.asyncio as redis
-from src.local_cache import LRUCache
+from local_cache import LRUCache
 
 load_dotenv()
 
