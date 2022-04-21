@@ -56,7 +56,8 @@ To build the docker image i used this
 
 ```cmd
 docker build -t redis_cache:1.0 . --build-arg PROXY_PORT="8000" --build-arg PROXY_HOST="0.0.0.0"
-
+```
+```cmd
 docker run  -p 5000:8000 --env-file ./.env redis_cache:1.0
 ```
 
