@@ -16,7 +16,12 @@ services:
     container_name: "redis_proxy_cache"
     expose:
       - 8000
-    command: uvicorn src.main:app --host $PROXY_HOST --port $PROXY_PORT
+    command: 
+    - /bin/bash
+    - -c
+    - |
+      python3 -m unittest discover -s ./tests/ -p '*_test.py' -b
+      uvicorn src.main:app --host $PROXY_HOST --port $PROXY_PORT
     volumes:
       - .:/src
     ports:

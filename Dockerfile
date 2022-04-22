@@ -10,6 +10,7 @@ ENV proxy_port=$PORXY_PORT
 
 # 
 COPY ./src /app/src
+COPY ./tests /app/tests
 
 # 
 COPY ./requirements.txt /app
